@@ -1,0 +1,11 @@
+.number-style {
+    max-width: 150px;
+    float: right;
+    display: -webkit-inline-box;
+}
+.card-img{
+    margin: 10px!important;
+}
+.breadcrumb{
+    background-color: #343a40!important;
+}
