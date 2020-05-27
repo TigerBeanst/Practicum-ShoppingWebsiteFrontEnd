@@ -2,12 +2,12 @@
     <div class="bought">
         <h1 style="margin-bottom: 30px"><i class="el-icon-s-goods"/> 欢迎光临</h1>
         <el-form ref="form" :model="form">
-            <el-input placeholder="请输入商品名称" v-model="form.searchBought" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search" @click="onSearch" native-type="submit"></el-button>
+            <el-input placeholder="请输入商品名称" v-model="form.searchAll" class="input-with-select">
+                <el-button slot="append" icon="el-icon-search" @click="onSearch" native-type="submit" @submit.native.prevent/>
             </el-input>
         </el-form>
         <el-table
-                :data="tableData"
+                :data="pageList"
                 border
                 style="width: 100%;margin-top: 20px">
             <el-table-column
@@ -15,23 +15,24 @@
                     width="50">
             </el-table-column>
             <el-table-column
-                    prop="province"
                     label="商品">
                 <template slot-scope="scope">
-                    <img v-bind:src="scope.row.name" height="30px" width="auto" style="vertical-align:middle;"/>
-                    <span style="margin-left: 10px;vertical-align:middle;">{{ scope.row.province }}</span>
+                    <img v-bind:src="scope.row.img" height="30px" width="auto" style="vertical-align:middle;"/>
+                    <span style="margin-left: 10px;vertical-align:middle;">{{ scope.row.title }}</span>
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="city"
                     label="价格"
-                    width="80">
+                    width="100">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px;vertical-align:middle;">￥{{ scope.row.price }}</span>
+                </template>
             </el-table-column>
             <el-table-column
                     label="操作"
                     width="100">
                 <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                    <el-button @click="jumpToGoodDetails(scope.row.id)" type="text" size="small">查看</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -43,7 +44,7 @@
                     :page-sizes="[10, 20, 30, 40]"
                     :page-size="10"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="rawList.length"
+                    :total="tableData.length"
             />
         </div>
     </div>
@@ -55,26 +56,74 @@
         boughtList: [],
         data() {
             return {
+                form: {
+                    searchAll: '',
+                },
                 tableData: [],
                 currentPage1: 1,
                 pageSize: 10,
                 pageList: [],
-                form: {
-                    searchBought: '',
-                },
+
             }
+        },
+        mounted() {
+            this.$axios.get("/api/good/getGoodsList.php")
+                .then(res => {
+                    if (res.data['getList_status'] == 1) {
+                        //成功
+                        //console.log(res.data);
+                        var table = [];
+                        var i = {};
+                        for (i in res.data) {
+                            table[i] = res.data[i];
+                        }
+                        this.tableData = table
+                        this.currentChangePage(this.tableData, 1);
+                    } else {
+                        this.$message.error("未知错误");
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         methods: {
             onSearch() {
-
+                this.$axios.get("/api/good/getGoodsList.php", {
+                    params: {
+                        query: this.form.searchAll
+                    }
+                })
+                    .then(res => {
+                        if (res.data['getList_status'] == 1) {
+                            //成功
+                            //console.log(res.data);
+                            var table = [];
+                            var i = {};
+                            for (i in res.data) {
+                                table[i] = res.data[i];
+                            }
+                            this.tableData = table
+                            this.$message.success("找到"+table.length+"件商品");
+                            this.currentChangePage(this.tableData, 1);
+                        } else {
+                            this.$message.error("未知错误");
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
-            handleSizeChange: function(pageSize) {
+            jumpToGoodDetails(id) {
+                this.$router.push('/good/' + id)
+            },
+            handleSizeChange: function (pageSize) {
                 this.pageSize = pageSize;
                 this.handleCurrentChange(this.currentPage1);
             },
-            handleCurrentChange: function(currentPage) {
+            handleCurrentChange: function (currentPage) {
                 this.currentPage1 = currentPage;
-                this.currentChangePage(this.rawList, currentPage);
+                this.currentChangePage(this.tableData, currentPage);
             },
             currentChangePage(list, currentPage) {
                 let from = (currentPage - 1) * this.pageSize;

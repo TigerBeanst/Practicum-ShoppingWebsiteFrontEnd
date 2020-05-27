@@ -5,27 +5,15 @@
                      :router=true>
                 <el-menu-item><i class="el-icon-s-goods"/>WHY网上购物商城</el-menu-item>
                 <el-menu-item index="/">首页</el-menu-item>
-                <el-submenu index="2">
-                    <template slot="title">我的工作台</template>
-                    <el-menu-item index="2-1">选项1</el-menu-item>
-                    <el-menu-item index="2-2">选项2</el-menu-item>
-                    <el-menu-item index="2-3">选项3</el-menu-item>
-                    <el-submenu index="2-4">
-                        <template slot="title">选项4</template>
-                        <el-menu-item index="2-4-1">选项1</el-menu-item>
-                        <el-menu-item index="2-4-2">选项2</el-menu-item>
-                        <el-menu-item index="2-4-3">选项3</el-menu-item>
-                    </el-submenu>
-                </el-submenu>
-                <el-menu-item index="3" disabled>消息中心</el-menu-item>
+                <el-menu-item index="/manage/goods" v-if="identity==3 || identity==2">商品管理</el-menu-item>
                 <el-menu-item index="/manage/users" v-if="identity==3">用户管理</el-menu-item>
-                <el-menu-item index="/manage/goods" v-if="identity==3">商品管理</el-menu-item>
                 <el-menu-item index="/manage/merchants" v-if="identity==3">商户管理</el-menu-item>
                 <el-menu-item v-if="login_status" style="float: right" v-on:click="logout">注销</el-menu-item>
                 <el-submenu v-if="login_status" style="float: right" index="">
                     <template slot="title">{{username}}</template>
                     <el-menu-item index="/bought"><i class="el-icon-s-claim"/>已买到的</el-menu-item>
-                    <el-menu-item index="/setting"><i class="el-icon-s-tools"/>商户资料设置</el-menu-item>
+                    <el-menu-item index="/setting"><i class="el-icon-s-tools"/>资料设置</el-menu-item>
+                    <el-menu-item index="/setting" v-if="identity==2"><i class="el-icon-s-tools"/>资料设置</el-menu-item>
                 </el-submenu>
                 <el-menu-item v-if="login_status" style="float: right" @click="drawer = true"><i
                         class="el-icon-shopping-cart-full"/></el-menu-item>
@@ -149,6 +137,7 @@
         name: "Header",
         data() {
             return {
+                input:'',
                 activeIndex: 'index',
                 login_status: localStorage['login_status'],
                 username: localStorage['username'],

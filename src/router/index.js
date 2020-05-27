@@ -18,7 +18,6 @@ Vue.use(VueRouter);
   const routes = [
   {
     path: '/',
-    name: 'Header',
     component: Header,
     meta: {
       title: "首页"

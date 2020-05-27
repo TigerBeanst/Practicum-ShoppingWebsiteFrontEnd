@@ -2,7 +2,7 @@
     <div class="good_details">
         <el-row class="good_info">
             <el-col :span="8">
-                <el-image :src="good_img" fit="contain" class="good_img" lazy/>
+                <el-image :src="good_img" fit="contain" class="good_img"/>
             </el-col>
             <el-col :span="16">
                 <div class="grid-content good_title">{{good_title}}</div>
