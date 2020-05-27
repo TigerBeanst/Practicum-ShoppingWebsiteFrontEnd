@@ -1,2 +1,3 @@
-# Practicum-ShoppingWebsite
-前后端耦合的网上购物商城，课设写的小垃圾
+# 网上购物商城前端
+用 Vue.js 做前端，PHP 做后端
+（辣鸡摸鱼，惨不忍睹的实现）
