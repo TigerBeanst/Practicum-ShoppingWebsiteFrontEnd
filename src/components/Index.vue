@@ -1,9 +1,9 @@
 <template>
     <div class="bought">
         <h1 style="margin-bottom: 30px"><i class="el-icon-s-goods"/> 欢迎光临</h1>
-        <el-form ref="form" :model="form">
+        <el-form ref="form" :model="form" @submit.native.prevent>
             <el-input placeholder="请输入商品名称" v-model="form.searchAll" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search" @click="onSearch" native-type="submit" @submit.native.prevent/>
+                <el-button slot="append" icon="el-icon-search" @click="onSearch" native-type="submit"/>
             </el-input>
         </el-form>
         <el-table

@@ -10,10 +10,12 @@
                 <el-menu-item index="/manage/merchants" v-if="identity==3">商户管理</el-menu-item>
                 <el-menu-item v-if="login_status" style="float: right" v-on:click="logout">注销</el-menu-item>
                 <el-submenu v-if="login_status" style="float: right" index="">
-                    <template slot="title">{{username}}</template>
-                    <el-menu-item index="/bought"><i class="el-icon-s-claim"/>已买到的</el-menu-item>
-                    <el-menu-item index="/setting"><i class="el-icon-s-tools"/>资料设置</el-menu-item>
-                    <el-menu-item index="/setting" v-if="identity==2"><i class="el-icon-s-tools"/>资料设置</el-menu-item>
+                    <template slot="title">{{name}}</template>
+                    <el-menu-item index="/merchant/talking" v-if="identity==2"><i class="el-icon-s-custom"/>在线客服</el-menu-item>
+                    <el-menu-item index="/manage/goods" v-if="identity==2"><i class="el-icon-s-order"/>商品管理</el-menu-item>
+                    <el-menu-item index="/bought" v-if="identity==1"><i class="el-icon-s-claim"/>已买到的</el-menu-item>
+                    <el-menu-item index="/setting" v-if="identity==1||identity==3"><i class="el-icon-s-tools"/>资料设置</el-menu-item>
+                    <el-menu-item index="/setting" v-if="identity==2"><i class="el-icon-s-tools"/>商户资料设置</el-menu-item>
                 </el-submenu>
                 <el-menu-item v-if="login_status" style="float: right" @click="drawer = true"><i
                         class="el-icon-shopping-cart-full"/></el-menu-item>
@@ -141,6 +143,7 @@
                 activeIndex: 'index',
                 login_status: localStorage['login_status'],
                 username: localStorage['username'],
+                name: localStorage['name'],
                 identity: localStorage['identity'],
                 drawer: false,
                 dialogTableVisible: false,
@@ -156,6 +159,7 @@
             window.addEventListener('setItem', () => {
                 this.login_status = localStorage.getItem('login_status');
                 this.username = localStorage.getItem('username');
+                this.name = localStorage.getItem('name');
                 this.identity = localStorage.getItem('identity');
                 this.activeIndex = 'index';
                 this.shoppingCartList = JSON.parse(localStorage.getItem('shoppingCart'));

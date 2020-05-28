@@ -3,7 +3,7 @@
         <el-card>
             <i class="el-icon-position login_icon"/>
             <h2>登录</h2>
-            <el-form ref="form" :model="form">
+            <el-form ref="form" :model="form" @submit.native.prevent>
                 <el-form-item label="用户名">
                     <el-input type="text" v-model="form.username" required/>
                 </el-form-item>
@@ -44,8 +44,9 @@
                             localStorage.clear();
                             this.resetSetItem('login_status',true);
                             this.resetSetItem('username',res.data['username']);
+                            this.resetSetItem('name',res.data['name']);
                             this.resetSetItem('identity',res.data['status']);
-                            this.$router.push('/index');
+                            this.$router.push('/');
                         } else if(res.data['login_status'] == -1) {
                             this.$message.error('用户名或密码错误，请重试！');
                         }else{

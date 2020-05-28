@@ -12,7 +12,7 @@ import UserManage from "../components/manage/UserManage";
 import MerchantManage from "../components/manage/MerchantManage";
 import DataAnalysis from "../components/manage/DataAnalysis";
 import Maintain from "../components/manage/Maintain";
-
+import Talking from "../components/merchant/Talking";
 Vue.use(VueRouter);
 
   const routes = [
@@ -99,6 +99,13 @@ Vue.use(VueRouter);
         component:Maintain,
         meta: {
           title: "网站维护 - WHY网上购物商城"
+        },
+      },
+      {
+        path:'/merchant/talking',
+        component:Talking,
+        meta: {
+          title: "在线客服 - WHY网上购物商城"
         },
       }
     ]

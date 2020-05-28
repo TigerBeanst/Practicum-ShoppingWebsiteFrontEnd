@@ -31,10 +31,10 @@
         <el-dialog title="申请成为商户" :visible.sync="dialogFormVisible" style="width: 50%;margin: auto auto">
             <el-form :model="form">
                 <el-form-item label="商户名称" :label-width="formLabelWidth" style="width: 50%">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                    <el-input v-model="form.name" autocomplete="off" ></el-input>
                 </el-form-item>
                 <el-form-item label="商户LOGO地址" :label-width="formLabelWidth" style="width: 100%">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                    <el-input v-model="form.name" autocomplete="off" ></el-input>
                 </el-form-item>
                 <el-form-item label="商户介绍" :label-width="formLabelWidth" style="width: 100%">
                     <el-input
@@ -55,31 +55,17 @@
 
 <script>
     export default {
-        data() {
-            return {
+        data(){
+            return{
                 dialogFormVisible: false,
                 form: {
-                    username: '',
-                    date: '',
-                    name: '',
-                    email: '',
-                    desc: ''
+                    username:'hjthjthjt',
+                    date:'2020-05-24',
+                    name: 'hjthjthjt',
+                    email: 'i@jakting.com',
+                    desc: '湖南省湘潭市雨湖区湖南科技大学'
                 }
-
             }
-        },
-        created() {
-            this.$axios.get('/api/user/info/getUserInfo.php', {
-                params: {
-                    username: localStorage.getItem('username')
-                }
-            }).then(res=>{
-                if(res.data['getUserInfo_status']==1){
-
-                }else{
-                    this.$message.error("未知错误")
-                }
-            })
         }
     }
 </script>
